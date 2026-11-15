@@ -1,0 +1,74 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <RootNamespace>BuckshotRoulette</RootNamespace>
+    <AssemblyName>BuckshotRoulette</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugType>embedded</DebugType>
+    <GameDir Condition="'$(GameDir)' == ''"></GameDir>
+    <ManagedDir>$(GameDir)\REPO_Data\Managed</ManagedDir>
+    <ProfileDir Condition="'$(ProfileDir)' == ''"></ProfileDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp" Publicize="true">
+      <HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="$(ManagedDir)\Assembly-CSharp-firstpass.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.PhysicsModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.AudioModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.AIModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.AnimationModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.ParticleSystemModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.UI.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.UIModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.TextRenderingModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.ImageConversionModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.InputLegacyModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.UnityWebRequestModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\UnityEngine.UnityWebRequestAudioModule.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Unity.TextMeshPro.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Unity.InputSystem.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Unity.Localization.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Unity.Postprocessing.Runtime.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Klattersynth.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Newtonsoft.Json.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\PhotonUnityNetworking.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\PhotonRealtime.dll" Private="false" />
+    <Reference Include="$(ManagedDir)\Photon3Unity3D.dll" Private="false" />
+    <Reference Include="$(ProfileDir)\BepInEx\core\BepInEx.dll" Private="false" />
+    <Reference Include="$(ProfileDir)\BepInEx\core\0Harmony.dll" Private="false" />
+    <Reference Include="$(ProfileDir)\BepInEx\plugins\Zehs-REPOLib\REPOLib.dll" Private="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\BuckshotRoulette.Logic\*.cs" LinkBase="Logic" Exclude="..\BuckshotRoulette.Logic\obj\**;..\BuckshotRoulette.Logic\bin\**" />
+  </ItemGroup>
+
+  <Target Name="ValidateLocalGameReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="'$(GameDir)' == ''" Text="Set GameDir to the local REPO installation path (use -p:GameDir=...)." />
+    <Error Condition="!Exists('$(ManagedDir)\Assembly-CSharp.dll')" Text="REPO managed assemblies were not found under '$(ManagedDir)'." />
+    <Error Condition="'$(ProfileDir)' == ''" Text="Set ProfileDir to a profile containing BepInEx and REPOLib (use -p:ProfileDir=...)." />
+    <Error Condition="!Exists('$(ProfileDir)\BepInEx\plugins\Zehs-REPOLib\REPOLib.dll')" Text="REPOLib was not found under '$(ProfileDir)'." />
+  </Target>
+
+  <Target Name="DeployToProfile" DependsOnTargets="Build" Condition="Exists('$(ProfileDir)')">
+    <ItemGroup>
+      <ModelFiles Include="$(MSBuildProjectDirectory)\..\..\assets\models\*.json;$(MSBuildProjectDirectory)\..\..\assets\models\*.png" />
+      <AudioFiles Include="$(MSBuildProjectDirectory)\..\..\assets\audio\*.ogg;$(MSBuildProjectDirectory)\..\..\assets\audio\*.wav" />
+    </ItemGroup>
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ProfileDir)\BepInEx\plugins\BuckshotRoulette" />
+    <Copy SourceFiles="@(ModelFiles)" DestinationFolder="$(ProfileDir)\BepInEx\plugins\BuckshotRoulette\Models" />
+    <Copy SourceFiles="@(AudioFiles)" DestinationFolder="$(ProfileDir)\BepInEx\plugins\BuckshotRoulette\Audio" />
+  </Target>
+</Project>

@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+*.cache
+*.log
+*.blend1
+/scratch/
+/releases/
+/.claude/
+/.env
+/.env.*
+*.token
+__pycache__/

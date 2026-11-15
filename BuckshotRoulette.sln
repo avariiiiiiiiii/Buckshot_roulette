@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A739D309-2DAD-4B2B-95C3-E8460DEB625D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuckshotRoulette.Logic", "src\BuckshotRoulette.Logic\BuckshotRoulette.Logic.csproj", "{54DC2983-ECE3-4255-A789-B2319A940179}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BF266901-9CB9-4EB3-8DAD-27D47C0AD2CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuckshotRoulette.Logic.Tests", "tests\BuckshotRoulette.Logic.Tests\BuckshotRoulette.Logic.Tests.csproj", "{B513615D-5833-4201-9F36-0BD23768B788}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuckshotRoulette.Plugin", "src\BuckshotRoulette.Plugin\BuckshotRoulette.Plugin.csproj", "{38C941FC-0193-4B3F-8895-DE92F880C8E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuckshotRoulette.Items.Tests", "tests\BuckshotRoulette.Items.Tests\BuckshotRoulette.Items.Tests.csproj", "{12A6AAA9-74E6-41B8-91FE-0F9B80AD5DE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuckshotRoulette.Firing.Tests", "tests\BuckshotRoulette.Firing.Tests\BuckshotRoulette.Firing.Tests.csproj", "{798E6ECB-BC09-4080-9E95-91FD81B444AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54DC2983-ECE3-4255-A789-B2319A940179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54DC2983-ECE3-4255-A789-B2319A940179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54DC2983-ECE3-4255-A789-B2319A940179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54DC2983-ECE3-4255-A789-B2319A940179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B513615D-5833-4201-9F36-0BD23768B788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B513615D-5833-4201-9F36-0BD23768B788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B513615D-5833-4201-9F36-0BD23768B788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B513615D-5833-4201-9F36-0BD23768B788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38C941FC-0193-4B3F-8895-DE92F880C8E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C941FC-0193-4B3F-8895-DE92F880C8E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C941FC-0193-4B3F-8895-DE92F880C8E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C941FC-0193-4B3F-8895-DE92F880C8E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12A6AAA9-74E6-41B8-91FE-0F9B80AD5DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12A6AAA9-74E6-41B8-91FE-0F9B80AD5DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12A6AAA9-74E6-41B8-91FE-0F9B80AD5DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12A6AAA9-74E6-41B8-91FE-0F9B80AD5DE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{798E6ECB-BC09-4080-9E95-91FD81B444AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{798E6ECB-BC09-4080-9E95-91FD81B444AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{798E6ECB-BC09-4080-9E95-91FD81B444AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{798E6ECB-BC09-4080-9E95-91FD81B444AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{54DC2983-ECE3-4255-A789-B2319A940179} = {A739D309-2DAD-4B2B-95C3-E8460DEB625D}
+		{B513615D-5833-4201-9F36-0BD23768B788} = {BF266901-9CB9-4EB3-8DAD-27D47C0AD2CF}
+		{38C941FC-0193-4B3F-8895-DE92F880C8E4} = {A739D309-2DAD-4B2B-95C3-E8460DEB625D}
+		{12A6AAA9-74E6-41B8-91FE-0F9B80AD5DE7} = {BF266901-9CB9-4EB3-8DAD-27D47C0AD2CF}
+		{798E6ECB-BC09-4080-9E95-91FD81B444AD} = {BF266901-9CB9-4EB3-8DAD-27D47C0AD2CF}
+	EndGlobalSection
+EndGlobal

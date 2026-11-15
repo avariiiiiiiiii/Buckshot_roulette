@@ -1,0 +1,7 @@
+{
+  "name": "Buckshot_Roulette",
+  "version_number": "0.1.3",
+  "website_url": "https://github.com/avariiiiiiiiii/Buckshot_roulette",
+  "description": "Buckshot Roulette in R.E.P.O.: Dealer enemy, shared live/blank shell pool, shotgun, five shop items and four valuables. Early release.",
+  "dependencies": ["BepInEx-BepInExPack-5.4.2305", "Zehs-REPOLib-4.3.0"]
+}
