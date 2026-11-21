@@ -4,15 +4,6 @@ namespace BuckshotRoulette.Core;
 
 internal static class Settings
 {
-    public static ConfigEntry<bool> DiagnosticsEnabled { get; private set; }
-    public static ConfigEntry<bool> AutoStartSingleplayer { get; private set; }
-    public static ConfigEntry<int> AutoStartLevel { get; private set; }
-    public static ConfigEntry<bool> SpawnValuablesOnLevelStart { get; private set; }
-    public static ConfigEntry<bool> SpawnDealerOnLevelStart { get; private set; }
-    public static ConfigEntry<bool> DealerStunTest { get; private set; }
-    public static ConfigEntry<bool> SpawnMassKitOnLevelStart { get; private set; }
-    public static ConfigEntry<bool> SpawnItemsOnLevelStart { get; private set; }
-    public static ConfigEntry<bool> ShellPoolSelfTest { get; private set; }
     public static ConfigEntry<float> DealerSpeed { get; private set; }
     public static ConfigEntry<float> MusicVolume { get; private set; }
     public static ConfigEntry<float> MusicRadius { get; private set; }
@@ -33,26 +24,6 @@ internal static class Settings
     {
         JammerRadius = config.Bind("Jammer", "Radius", 45f,
             new ConfigDescription("Радиус глушилки в метрах; умножается на слух моба.", new AcceptableValueRange<float>(1f, 200f)));
-        // Новый ключ намеренно заменяет прежний DumpOnLevelStart (по умолчанию включённый).
-        // Иначе старые конфиги продолжали бы запускать диагностические логи в обычной игре.
-        DiagnosticsEnabled = config.Bind("Debug", "DiagnosticsEnabled", false,
-            "Включить диагностические дампы и журнал зрения дилера (для разработки).");
-        AutoStartSingleplayer = config.Bind("Debug", "AutoStartSingleplayer", false,
-            "Из главного меню сразу стартовать одиночный забег через тестовую ветку игры (для разработки).");
-        AutoStartLevel = config.Bind("Debug", "AutoStartLevel", 0,
-            "Куда стартовать автозапуском: 0 — уровень забега, 1 — магазин, 2 — обычный переход.");
-        SpawnValuablesOnLevelStart = config.Bind("Debug", "SpawnValuablesOnLevelStart", false,
-            "Выложить все ценности мода в фургоне, когда уровень сгенерирован (для разработки).");
-        SpawnDealerOnLevelStart = config.Bind("Debug", "SpawnDealerOnLevelStart", false,
-            "Заспавнить дилера, когда уровень сгенерирован (для разработки).");
-        DealerStunTest = config.Bind("Debug", "DealerStunTest", false,
-            "Оглушать дилера на 5 секунд каждые 20 секунд, чтобы проверить анимацию оглушения (для разработки).");
-        SpawnMassKitOnLevelStart = config.Bind("Debug", "SpawnMassKitOnLevelStart", false,
-            "Выложить перед игроком по одной ценности игры каждой массы и записать массы всех ценностей в лог — проверка, чем оглушается дилер (для разработки).");
-        SpawnItemsOnLevelStart = config.Bind("Debug", "SpawnItemsOnLevelStart", false,
-            "Выложить все пять предметов магазина мода в фургоне (для разработки).");
-        ShellPoolSelfTest = config.Bind("Debug", "ShellPoolSelfTest", false,
-            "Одиночка: стрелять кодом в дилера ванильным дробовиком, лазером и дробовиком дилера и писать в лог расход общего пула (для разработки).");
         DealerSpeed = config.Bind("Dealer", "Speed", 1.5f, "Скорость дилера, когда он бродит по карте, м/с (медиана ванильных врагов — 1.5).");
         MusicVolume = config.Bind("Dealer", "MusicVolume", 0.6f, new ConfigDescription("Громкость музыки General рядом с дилером.", new AcceptableValueRange<float>(0f, 1f)));
         MusicRadius = config.Bind("Dealer", "MusicRadius", 14f, "Радиус, в котором слышна музыка дилера, метры.");

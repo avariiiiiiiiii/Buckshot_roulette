@@ -2,7 +2,6 @@ using BepInEx;
 using BepInEx.Logging;
 using BuckshotRoulette.Core;
 using BuckshotRoulette.Dealer;
-using BuckshotRoulette.Diagnostics;
 using BuckshotRoulette.Items;
 using BuckshotRoulette.Shells;
 using BuckshotRoulette.Valuables;
@@ -35,8 +34,6 @@ public sealed class Plugin : BaseUnityPlugin
         try { DealerFactory.RegisterAll(); }
         catch (System.Exception e) { Log.LogError($"Не удалось собрать дилера: {e}"); }
         ShopItems.RegisterAll();
-        gameObject.AddComponent<DebugSpawner>();
-        gameObject.AddComponent<PoolSelfTest>();
 
         Log.LogInfo($"{ModInfo.Name} {ModInfo.Version} загружен");
     }

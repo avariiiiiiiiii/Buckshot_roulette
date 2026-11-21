@@ -42,7 +42,6 @@ internal sealed class EnemyDealer : MonoBehaviour
     private float _lostSightTimer;
     private readonly Dictionary<int, float> _ignoreUntil = new Dictionary<int, float>();
 
-    private float _visionLogTimer;
     private readonly RaycastHit[] _sightHits = new RaycastHit[16];
 
     private bool _stunned;
@@ -50,7 +49,6 @@ internal sealed class EnemyDealer : MonoBehaviour
     private CapsuleCollider[] _colliders;
     private bool _collidersPending;
     private float _collidersPendingTime;
-    private float _stunTestTimer;
 
     private const float AimBelowEyes = 0.3f;        // м: ствол наводится в грудь, а не в глаза
     private const float TumbleSpin = 4f;            // рад/с: закрутка шара в начале оглушения
@@ -93,8 +91,6 @@ internal sealed class EnemyDealer : MonoBehaviour
         if (_collidersPending) RestoreCollidersWhenUpright();
 
         if (!SemiFunc.IsMasterClientOrSingleplayer()) return;
-        if (Settings.DiagnosticsEnabled.Value) DebugVision();
-        if (Settings.DealerStunTest.Value) DebugStun();
         if (_stunned && CurrentState != State.Stun) UpdateState(State.Stun);
         if (CuffedEnemy.IsTargetCuffed(_enemy) && !_stunned)
         {
@@ -170,16 +166,6 @@ internal sealed class EnemyDealer : MonoBehaviour
         }
         // пришёл в себя — снова бродит рядом и может заметить игрока (уход на 25–50 м прятал его от игроков)
         if (!_stunned) UpdateState(State.Idle);
-    }
-
-    /// <summary>Отладка: оглушение на 5 с каждые 20 с, чтобы проверить анимацию без броска предметом.</summary>
-    private void DebugStun()
-    {
-        _stunTestTimer += Time.deltaTime;
-        if (_stunTestTimer < 20f) return;
-        _stunTestTimer = 0f;
-        Plugin.Log.LogInfo("DebugStun: оглушаю дилера на 5 с");
-        _enemy.StateStunned.Set(5f);
     }
 
     // ---------------------------------------------------------------- состояния
@@ -398,17 +384,8 @@ internal sealed class EnemyDealer : MonoBehaviour
     {
         if (SemiFunc.IsMasterClientOrSingleplayer())
         {
-            // игра выпускает врага в точке уровня в 18–35 м от игроков (SemiFunc.EnemySpawn), отладочный дилер переносится после неё
-            if (SemiFunc.EnemySpawn(_enemy))
-            {
-                UpdateState(State.Spawn);
-                if (Diagnostics.DebugSpawner.PendingDealerPoint is Vector3 debugPoint)
-                {
-                    Diagnostics.DebugSpawner.PendingDealerPoint = null;
-                    _enemy.EnemyTeleported(debugPoint);
-                    Plugin.Log.LogInfo($"DebugSpawn: дилер перенесён в тестовую точку карты {debugPoint}");
-                }
-            }
+            // игра выпускает врага в точке уровня в 18–35 м от игроков (SemiFunc.EnemySpawn)
+            if (SemiFunc.EnemySpawn(_enemy)) UpdateState(State.Spawn);
             // при каждом появлении дилера всем показывают, что в общем пуле (есть у кого-то дробовик или нет)
             ShellPool.ShowCurrent();
         }
@@ -434,35 +411,6 @@ internal sealed class EnemyDealer : MonoBehaviour
         _enemy.TargetPlayerViewID = player.photonView.ViewID;
         Plugin.Log.LogInfo($"Дилер заметил {player.playerName}");
         UpdateState(State.Notice);
-    }
-
-    /// <summary>Диагностика зрения: почему дилер видит или не видит локального игрока.</summary>
-    private void DebugVision()
-    {
-        _visionLogTimer += Time.deltaTime;
-        if (_visionLogTimer < 2f) return;
-        _visionLogTimer = 0f;
-        var vision = _enemy.Vision;
-        var player = PlayerAvatar.instance;
-        if (vision == null || player == null) return;
-        var from = vision.VisionTransform.position;
-        var to = player.PlayerVisionTarget.VisionTransform.position;
-        float dot = Vector3.Dot(vision.VisionTransform.forward, (to - from).normalized);
-        vision.VisionsTriggered.TryGetValue(player.photonView.ViewID, out int seen);
-        var blocker = SightBlocker(player);
-        string sight = blocker == null ? "да" : $"нет ({blocker.name}, tag={blocker.tag}, layer={LayerMask.LayerToName(blocker.gameObject.layer)})";
-        Plugin.Log.LogInfo($"DealerVision: состояние={CurrentState}, enemyState={_enemy.CurrentState}, игроков в зрении={vision.VisionsTriggered.Count}, " +
-                           $"счётчик={seen}/{vision.VisionsToTrigger}, дистанция={Vector3.Distance(from, to):F1}/{vision.VisionDistance:F1} м, " +
-                           $"dot={dot:F2}, видит={sight}, отключено={vision.DisableTimer:F2}");
-        if (_visual != null)
-        {
-            // высоты относительно контроллера (он стоит на навмеше, то есть на полу) и ступней игрока
-            float floor = transform.position.y;
-            Plugin.Log.LogInfo($"DealerHeight: над контроллером: тело={_enemy.Rigidbody.transform.position.y - floor:F2}, " +
-                               $"корень модели={_visual.transform.position.y - floor:F2}, голова={(_visual.Head != null ? _visual.Head.position.y - floor : 0f):F2}, " +
-                               $"дуло={(_visual.Muzzle != null ? _visual.Muzzle.position.y - floor : 0f):F2}; ступни игрока={player.transform.position.y - floor:F2}; " +
-                               $"масштаб корня={_visual.transform.lossyScale.y:F2}");
-        }
     }
 
     // ---------------------------------------------------------------- вспомогательное

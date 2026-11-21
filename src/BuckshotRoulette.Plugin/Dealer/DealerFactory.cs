@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Text;
 using BuckshotRoulette.Core;
 using HarmonyLib;
 using REPOLib.Modules;
@@ -38,7 +37,6 @@ internal static class DealerFactory
 
         var root = Object.Instantiate(template, holder.transform);
         root.name = "Enemy - Dealer";
-        if (Settings.DiagnosticsEnabled.Value) Plugin.Log.LogInfo(DescribeTemplate(root));
 
         Strip(root);
         Assemble(root);
@@ -137,26 +135,5 @@ internal static class DealerFactory
             capsules[i].radius = shape[i].Item2;
             capsules[i].height = shape[i].Item3;
         }
-    }
-
-    /// <summary>Разовый дамп размеров шаблона для подгонки коллайдеров под рост дилера.</summary>
-    private static string DescribeTemplate(GameObject root)
-    {
-        var sb = new StringBuilder("\n===== BuckshotRoulette: шаблон Animal =====\n");
-        foreach (var t in root.GetComponentsInChildren<Transform>(true))
-        {
-            if (t.GetComponent<CapsuleCollider>() is CapsuleCollider cap)
-                sb.AppendLine($"  Capsule {t.name} local={t.localPosition} scale={t.localScale} center={cap.center} r={cap.radius} h={cap.height} dir={cap.direction} trigger={cap.isTrigger}");
-            if (t.GetComponent<BoxCollider>() is BoxCollider box)
-                sb.AppendLine($"  Box {t.name} local={t.localPosition} center={box.center} size={box.size} trigger={box.isTrigger}");
-        }
-        foreach (var n in new[] { "Enable", "Enable/Controller", "Enable/Controller/Follow", "Enable/Rigidbody", "Enable/Rigidbody/Mesh", "Enable/Rigidbody/Vision Transform", "Enable/Rigidbody/Center" })
-        {
-            var t = root.transform.Find(n);
-            if (t != null) sb.AppendLine($"  {n}: local={t.localPosition} euler={t.localEulerAngles} scale={t.localScale}");
-        }
-        var agent = root.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(true);
-        if (agent != null) sb.AppendLine($"  NavMeshAgent: r={agent.radius} h={agent.height} baseOffset={agent.baseOffset} speed={agent.speed} accel={agent.acceleration}");
-        return sb.ToString();
     }
 }

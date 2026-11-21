@@ -88,7 +88,6 @@ internal static class BuckshotShotgun
         // В префабе лежат и служебные кубы объёмов предметов (Small, Large, Vehicle…) с выключенными рендерерами — их не трогаем
         var renderers = prefab.GetComponentsInChildren<MeshRenderer>(true);
         float min = float.MaxValue, max = float.MinValue;
-        var dump = new System.Text.StringBuilder();
         int hidden = 0;
         foreach (var r in renderers)
         {
@@ -105,11 +104,9 @@ internal static class BuckshotShotgun
                 rMin = Mathf.Min(rMin, along);
                 rMax = Mathf.Max(rMax, along);
             }
-            dump.Append($"\n  {r.name} ({mesh.name}), вдоль ствола {rMin:F2}..{rMax:F2}");
             min = Mathf.Min(min, rMin);
             max = Mathf.Max(max, rMax);
         }
-        if (Settings.DiagnosticsEnabled.Value) Plugin.Log.LogInfo($"Дробовик: ванильные меши:{dump}");
         float vanillaLength = max > min ? max - min : 0f;
         float ourLength = gunPart.Model.Mesh.bounds.size.z;
         float scale = vanillaLength > 0.1f ? Mathf.Clamp(vanillaLength / ourLength, 0.6f, 1.4f) : 1f;

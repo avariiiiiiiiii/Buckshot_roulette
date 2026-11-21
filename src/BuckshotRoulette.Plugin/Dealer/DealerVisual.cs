@@ -67,7 +67,6 @@ internal sealed class DealerVisual : MonoBehaviour
     private float _pose;
     private float _shootFace;
     private float _pumpTime = PumpDuration;
-    private float _logTimer;
 
     private Phase _phase;
     private float _phaseTime;
@@ -245,8 +244,6 @@ internal sealed class DealerVisual : MonoBehaviour
 
         if (_phase == Phase.Stunned) AnimateStun(dt);
         else if (_phase == Phase.Recovering) AnimateRecover();
-
-        if (Settings.DiagnosticsEnabled.Value) DebugLog(dt);
     }
 
     /// <summary>Поворот контейнера рук, при котором ствол (ось +Z через пивот рук) смотрит на цель; без цели — прямо.</summary>
@@ -405,16 +402,5 @@ internal sealed class DealerVisual : MonoBehaviour
         Aura.SetVisible(true);
         _handsOnFace = false;
         _phase = Phase.Normal;
-    }
-
-    /// <summary>Диагностика: скорость, поза ствола, фаза оглушения и где лежит дробовик.</summary>
-    private void DebugLog(float dt)
-    {
-        _logTimer += dt;
-        if (_logTimer < 3f) return;
-        _logTimer = 0f;
-        string gun = _phase == Phase.Normal ? "в руках" : $"над полом {Gun.position.y - _floorY:F2} м, {Vector3.Distance(Gun.position, transform.position):F1} м от дилера";
-        Plugin.Log.LogInfo($"DealerVisual: скорость={_speed:F2} м/с, ствол={(_pose > 0.5f ? "поднят" : "опущен")}, фаза={_phase}, " +
-                           $"руки на лице={_handsOnFace}, дробовик {gun}, наклон={Vector3.Angle(transform.up, Vector3.up):F0}°");
     }
 }

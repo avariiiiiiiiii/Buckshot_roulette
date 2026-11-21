@@ -23,8 +23,9 @@ For manual installation, install BepInEx and REPOLib, then copy the package's pl
 
 ## Early release
 
-Version 0.1.3 includes the latest fixes for blank shells, handcuff targeting and phone speech.
-Automated checks pass, but the latest changes still need in-game and multiplayer verification.
+Version 0.1.4 removes all debug spawning: items are bought in the shop, valuables spawn on maps,
+the Dealer spawns by the regular round rules. Automated checks pass, but the latest changes still
+need in-game and multiplayer verification.
 Adrenaline compatibility with other mods that alter time or physics has not been verified.
 
 Report issues and find source code at https://github.com/avariiiiiiiiii/Buckshot_roulette.
@@ -33,7 +34,8 @@ Report issues and find source code at https://github.com/avariiiiiiiiii/Buckshot
 
 Мод добавляет дилера, общий пул боевых и холостых, дробовик, ножовку, наручники, глушилку,
 адреналин и четыре ценности. Холостой не наносит урон никому. Предметы используются в руке
-клавишей взаимодействия (обычно E). Тестовый спавн и автозапуск по умолчанию выключены.
+клавишей взаимодействия (обычно E). Предметы покупаются в магазине, ценности лежат на карте,
+дилер появляется по штатным правилам раунда — тестового спавна в моде больше нет.
 Это ранний выпуск: последние исправления требуют проверки в игре и по сети.
 
 Unofficial fan mod for R.E.P.O.; inspired by Buckshot Roulette. Not affiliated with either game's developers.

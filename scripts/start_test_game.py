@@ -1,4 +1,8 @@
-"""Build a workspace-local test profile and launch the installed game visibly."""
+"""Build a workspace-local test profile and launch the installed game visibly.
+
+Only copies BepInEx/REPOLib and the compiled mod into scratch/playtest: the game itself
+gets no debug spawns, the shop and level spawn come from the regular game rules.
+"""
 import configparser
 import json
 import os
@@ -33,15 +37,6 @@ for directory in ['core','plugins/Zehs-REPOLib']:
     shutil.copytree(SOURCE/directory,BEP/directory,dirs_exist_ok=True)
 (BEP/'config').mkdir(exist_ok=True)
 for path in (SOURCE/'config').glob('*.cfg'):shutil.copy2(path,BEP/'config'/path.name)
-path=BEP/'config/local.buckshotroulette.cfg'
-config=ini(path)
-if not config.has_section('Debug'):config.add_section('Debug')
-config['Debug'].update({
-    'AutoStartSingleplayer':'true','AutoStartLevel':'0','SpawnValuablesOnLevelStart':'true',
-    'SpawnItemsOnLevelStart':'true','SpawnDealerOnLevelStart':'true','SpawnMassKitOnLevelStart':'false',
-    'DealerStunTest':'false','ShellPoolSelfTest':'false','DumpOnLevelStart':'false','DiagnosticsEnabled':'false',
-})
-with path.open('w',encoding='utf-8') as output:config.write(output)
 path=BEP/'config/BepInEx.cfg';config=ini(path)
 config['Logging.Console']['Enabled']='false'
 with path.open('w',encoding='utf-8') as output:config.write(output)
